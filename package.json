@@ -1,0 +1,11 @@
+{
+  "name": "blog-api-js-lab",
+  "version": "1.0.0",
+  "description": "js lab first milestone project called \"Blog API\"",
+  "main": "server.js",
+  "scripts": {
+    "test": "jest"
+  },
+  "author": "bek-shoyatbek",
+  "license": "ISC"
+}
