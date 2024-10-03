@@ -2,8 +2,10 @@ import { Repository } from "typeorm";
 import { User } from "../../common/database/entities/user.entity";
 import { UserSignupDto } from "./dto/user-signup.dto";
 import { AppDataSource } from "../../common/database";
-import { hashPassword } from "../../common/hashers";
+import { comparePasswords, hashPassword } from "../../common/hashers";
 import { AppError } from "../../common/errors/app-error";
+import { UserLoginDto } from "./dto/user-login.dto";
+import { generateJwtToken } from "../../common/jwt";
 
 const userRepository = AppDataSource.getRepository(User);
 
@@ -26,14 +28,44 @@ export class AuthService {
       user.username = userSignupDto.username;
       user.email = userSignupDto.email;
       user.password = hashedPassword;
-      const result = await userRepository.save(user);
+      const savedUser = await userRepository.save(user);
 
-      return result;
+      return savedUser;
     } catch (err) {
       if (err instanceof AppError) {
         throw err;
       }
       throw new AppError(500, "Error signing up");
+    }
+  }
+
+  static async login(userLoginDto: UserLoginDto) {
+    try {
+      const user = await userRepository.findOneBy({
+        email: userLoginDto.email,
+      });
+
+      if (!user) {
+        throw new AppError(400, "User with this email doesn't exist!");
+      }
+
+      const isCorrectPassword = await comparePasswords(
+        userLoginDto.password,
+        user.password,
+      );
+
+      if (!isCorrectPassword) {
+        throw new AppError(400, "Invalid password");
+      }
+
+      const accessToken = generateJwtToken(user);
+
+      return accessToken;
+    } catch (err) {
+      if (err instanceof AppError) {
+        throw err;
+      }
+      throw new AppError(500, "Error logging in");
     }
   }
 }
