@@ -2,7 +2,7 @@ import jwt from "jsonwebtoken";
 import { User } from "../database/entities/user.entity";
 import { appConfig } from "../configs";
 
-export function generateToken(user: User) {
+export function generateJwtToken(user: User) {
   return jwt.sign(
     { userId: user.id, email: user.email },
     appConfig.jwtSecret || "lkj4joidfwlk43jeriojdkf",
