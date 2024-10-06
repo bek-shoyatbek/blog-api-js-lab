@@ -13,6 +13,7 @@ BlogRouter.post(
   BlogController.createBlogHandler,
 );
 
-BlogRouter.get("/");
-BlogRouter.put("/");
-BlogRouter.delete("/");
+BlogRouter.get("/", authenticateToken, BlogController.getAllBlogsHandler);
+BlogRouter.get("/:id", authenticateToken, BlogController.getBlogByIdHandler);
+BlogRouter.put("/:id", authenticateToken, BlogController.updateBlogHandler);
+BlogRouter.delete("/:id", authenticateToken, BlogController.deleteBlogHandler);
