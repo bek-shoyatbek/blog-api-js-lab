@@ -1,13 +1,10 @@
-import { Repository } from "typeorm";
 import { User } from "../../common/database/entities/user.entity";
 import { UserSignupDto } from "./dto/user-signup.dto";
-import { AppDataSource } from "../../common/database";
+import { userRepository } from "../../common/database";
 import { comparePasswords, hashPassword } from "../../common/hashers";
 import { AppError } from "../../common/errors/app-error";
 import { UserLoginDto } from "./dto/user-login.dto";
 import { generateJwtToken } from "../../common/jwt";
-
-const userRepository = AppDataSource.getRepository(User);
 
 export class AuthService {
   static async signup(userSignupDto: UserSignupDto) {
