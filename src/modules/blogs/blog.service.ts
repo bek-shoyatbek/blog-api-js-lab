@@ -25,7 +25,25 @@ export class BlogService {
     }
   }
 
-  static async getAll(take: number, skip: number) {
+  static async getMyBlogs(userId: string, take: number, skip: number) {
+    try {
+      const blogs = await blogRepository.find({
+        where: { user: { id: userId } },
+        relations: ["user"],
+        take: take,
+        skip: skip,
+        order: { created_at: "DESC" },
+      });
+      return blogs.map((blog) => ({
+        ...blog,
+        user: blog.user.username,
+      }));
+    } catch (err) {
+      throw new AppError(500, "Error fetching blogs");
+    }
+  }
+
+  static async getAllBlogs(take: number, skip: number) {
     try {
       const blogs = await blogRepository.find({
         relations: ["user"],

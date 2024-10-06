@@ -20,7 +20,29 @@ export class BlogController {
     }
   }
 
-  static async getAllBlogsHandler(
+  static async getMyBlogsHandler(
+    req: AuthRequest,
+    res: Response,
+    next: NextFunction,
+  ) {
+    try {
+      const take = req.query?.take || 20;
+      const skip = req.query?.skip || 0;
+      const user = req.user;
+      const blogs = await BlogService.getMyBlogs(
+        user.userId,
+        take as number,
+        skip as number,
+      );
+      res.status(200).json({
+        message: "Blogs fetched successfully",
+        data: blogs,
+      });
+    } catch (err) {
+      next(err);
+    }
+  }
+  static async getPublicBlogsHandler(
     req: Request,
     res: Response,
     next: NextFunction,
@@ -28,7 +50,10 @@ export class BlogController {
     try {
       const take = req.query?.take || 20;
       const skip = req.query?.skip || 0;
-      const blogs = await BlogService.getAll(take as number, skip as number);
+      const blogs = await BlogService.getAllBlogs(
+        take as number,
+        skip as number,
+      );
       res.status(200).json({
         message: "Blogs fetched successfully",
         data: blogs,

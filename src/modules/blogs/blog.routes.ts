@@ -13,8 +13,8 @@ BlogRouter.post(
   BlogController.createBlogHandler,
 );
 
-BlogRouter.get("/", authenticateToken, BlogController.getAllBlogsHandler);
-BlogRouter.get("/public");
+BlogRouter.get("/", authenticateToken, BlogController.getMyBlogsHandler);
+BlogRouter.get("/public", BlogController.getPublicBlogsHandler);
 BlogRouter.get("/:id", authenticateToken, BlogController.getBlogByIdHandler);
 BlogRouter.put("/:id", authenticateToken, BlogController.updateBlogHandler);
 BlogRouter.delete("/:id", authenticateToken, BlogController.deleteBlogHandler);
