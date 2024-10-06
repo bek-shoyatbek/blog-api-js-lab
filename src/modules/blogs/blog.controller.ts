@@ -26,7 +26,9 @@ export class BlogController {
     next: NextFunction,
   ) {
     try {
-      const blogs = await BlogService.getAll();
+      const take = req.query?.take || 20;
+      const skip = req.query?.skip || 0;
+      const blogs = await BlogService.getAll(take as number, skip as number);
       res.status(200).json({
         message: "Blogs fetched successfully",
         data: blogs,

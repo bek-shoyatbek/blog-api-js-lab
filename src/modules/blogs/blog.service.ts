@@ -25,10 +25,12 @@ export class BlogService {
     }
   }
 
-  static async getAll() {
+  static async getAll(take: number, skip: number) {
     try {
       const blogs = await blogRepository.find({
         relations: ["user"],
+        take: take,
+        skip: skip,
         order: { created_at: "DESC" },
       });
       return blogs.map((blog) => ({

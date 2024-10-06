@@ -14,6 +14,7 @@ BlogRouter.post(
 );
 
 BlogRouter.get("/", authenticateToken, BlogController.getAllBlogsHandler);
+BlogRouter.get("/public");
 BlogRouter.get("/:id", authenticateToken, BlogController.getBlogByIdHandler);
 BlogRouter.put("/:id", authenticateToken, BlogController.updateBlogHandler);
 BlogRouter.delete("/:id", authenticateToken, BlogController.deleteBlogHandler);
