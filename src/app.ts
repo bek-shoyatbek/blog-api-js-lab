@@ -1,7 +1,7 @@
 import express from "express";
 import "reflect-metadata";
 import { errorHandler } from "./common/middlewares/error-handler.middleware";
-import { AuthRouter } from "./modules/auth/auth.routes";
+import { AuthRouter } from "./modules/auth";
 
 export const app = express();
 
