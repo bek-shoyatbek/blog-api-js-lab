@@ -1,6 +1,5 @@
-import { User } from "../../common/database/entities/user.entity";
 import { UserSignupDto } from "./dto/user-signup.dto";
-import { userRepository } from "../../common/database";
+import { User, userRepository } from "../../common/database";
 import { comparePasswords, hashPassword } from "../../common/hashers";
 import { AppError } from "../../common/errors/app-error";
 import { UserLoginDto } from "./dto/user-login.dto";
