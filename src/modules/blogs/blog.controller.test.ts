@@ -39,4 +39,39 @@ describe("Blog controller tests: ", () => {
 
     expect(response.status).toBe(201);
   });
+
+  it("should fetch all my blogs", async () => {
+    const response = await request(app)
+      .get("/blogs")
+      .set("Authorization", "Bearer " + authToken)
+      .set("Content-Type", "application/json");
+
+    expect(response.status).toBe(200);
+
+    const body = response.body;
+    expect(body).toHaveProperty("data");
+    expect(body).toHaveProperty("message");
+
+    const blogs = body?.data;
+    expect(blogs).toBeInstanceOf(Array);
+  });
+
+  it("should fetch blogs with pagination", async () => {
+    const take = 2;
+    const skip = 1;
+    const response = await request(app)
+      .get(`/blogs?take=${take}&skip=${skip}`)
+      .set("Authorization", "Bearer " + authToken)
+      .set("Content-Type", "application/json");
+
+    expect(response.status).toBe(200);
+
+    const body = response.body;
+    expect(body).toHaveProperty("data");
+    expect(body).toHaveProperty("message");
+
+    const blogs = body?.data;
+    expect(blogs).toBeInstanceOf(Array);
+    expect(blogs.length).toBe(2);
+  });
 });

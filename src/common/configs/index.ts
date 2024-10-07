@@ -15,7 +15,7 @@ export const dbConfig: DataSourceOptions = {
   database: process.env.DB_DATABASE,
   entities: [User, Blog, Comment],
   synchronize: false,
-  logging: true,
+  logging: false,
   migrations: [],
   entitySkipConstructor: true,
 };
