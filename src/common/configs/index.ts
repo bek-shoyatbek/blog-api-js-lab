@@ -20,6 +20,14 @@ export const dbConfig: DataSourceOptions = {
   entitySkipConstructor: true,
 };
 
+export const testDbConfig: DataSourceOptions = {
+  type: "sqlite",
+  database: `${process.cwd()}/database.sql`,
+  entities: [User, Blog, Comment],
+  synchronize: true,
+  logging: true,
+};
+
 export const appConfig = {
   port: process.env.APP_PORT,
   jwtSecret: process.env.JWT_SECRET,
