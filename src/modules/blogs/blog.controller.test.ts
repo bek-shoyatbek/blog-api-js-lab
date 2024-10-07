@@ -74,4 +74,35 @@ describe("Blog controller tests: ", () => {
     expect(blogs).toBeInstanceOf(Array);
     expect(blogs.length).toBe(2);
   });
+
+  it("should fetch blog by id", async () => {
+    const blogResponse = await request(app)
+      .get(`/blogs`)
+      .set("Authorization", "Bearer " + authToken)
+      .set("Content-Type", "application/json");
+
+    const blogs = blogResponse.body?.data;
+    const randomBlog = blogs[Math.floor(Math.random() * blogs.length)];
+
+    const response = await request(app)
+      .get(`/blogs/${randomBlog?.id}`)
+      .set("Authorization", "Bearer " + authToken)
+      .set("Content-Type", "application/json");
+
+    const body = response.body;
+    const data = body?.data;
+
+    const mockBlogObjProps = [
+      "id",
+      "title",
+      "content",
+      "tags",
+      "created_at",
+      "updated_at",
+      "user",
+    ];
+    mockBlogObjProps.forEach((prop) => {
+      expect(data).toHaveProperty(prop);
+    });
+  });
 });
