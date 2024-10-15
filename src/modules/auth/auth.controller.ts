@@ -34,7 +34,7 @@ export class AuthController {
     }
   }
 
-  static async login(req: Request, res: Response, next: NextFunction) {
+  static async login(req: Request, res: Response) {
     try {
       const accessToken = await AuthService.login(req.body);
 
