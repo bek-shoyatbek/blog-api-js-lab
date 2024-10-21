@@ -1,6 +1,11 @@
 import dotenv from "dotenv";
 import { DataSourceOptions } from "typeorm";
 import { User } from "../database/entities/user.entity";
+<<<<<<< HEAD
+=======
+import { Blog } from "../database/entities/blog.entity";
+import { Comment } from "../database/entities/comment.entity";
+>>>>>>> main
 
 dotenv.config();
 
@@ -11,7 +16,15 @@ export const dbConfig: DataSourceOptions = {
   username: process.env.DB_USERNAME,
   password: process.env.DB_PASSWORD,
   database: process.env.DB_DATABASE,
+<<<<<<< HEAD
   entities: [User],
+=======
+  entities: [User, Blog, Comment],
+  synchronize: false,
+  logging: true,
+  migrations: [],
+  entitySkipConstructor: true,
+>>>>>>> main
 };
 
 export const appConfig = {
