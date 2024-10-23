@@ -6,6 +6,6 @@ export const blogRouter = Router();
 
 blogRouter.post("/", authenticateToken, BlogController.createBlogHandler);
 blogRouter.get("/", BlogController.getBlogsHandler);
-blogRouter.get("/:id", authenticateToken, BlogController.getBlogByIdHandler);
+blogRouter.get("/:id", BlogController.getBlogByIdHandler);
 blogRouter.put("/:id", authenticateToken, BlogController.updateBlogHandler);
 blogRouter.delete("/:id", authenticateToken, BlogController.deleteBlogHandler);
