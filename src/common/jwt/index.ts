@@ -4,7 +4,7 @@ import { appConfig } from "../configs";
 
 export function generateJwtToken(user: User) {
   return jwt.sign(
-    { userId: user.id, email: user.email },
+    { userId: user.id, userRole: user.role },
     appConfig.jwtSecret || "lkj4joidfwlk43jeriojdkf",
     { expiresIn: "2h" },
   );
