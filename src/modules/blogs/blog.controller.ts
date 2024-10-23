@@ -74,7 +74,7 @@ export class BlogController {
         return;
       }
 
-      if (blog.user.id !== user.userId) {
+      if (blog.user.id !== user.userId && user.userRole === "user") {
         res
           .status(403)
           .json({ message: "You are not authorized to update this blog" });
@@ -106,7 +106,7 @@ export class BlogController {
         return;
       }
 
-      if (blog.user.id !== user.userId) {
+      if (blog.user.id !== user.userId && user.userRole === "user") {
         res
           .status(403)
           .json({ message: "You are not authorized to delete this blog" });
