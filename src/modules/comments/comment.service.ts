@@ -13,4 +13,14 @@ export class CommentService {
         return { user: user.id, comment: createdComment.content };
     }
 
+    static async getCommentsByBlogId(blogId: string) {
+        const comments = await commentRepository
+            .createQueryBuilder("comment")
+            .where("comment.blogId = :blogId", { blogId })
+            .leftJoinAndSelect("comment.user", "user")
+            .select(["comment.id", "comment.content", "user.id", "user.username"])
+            .getMany();
+        return comments;
+    }
+
 }
