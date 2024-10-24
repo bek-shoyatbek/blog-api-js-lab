@@ -13,3 +13,4 @@ blogRouter.delete("/:id", authenticateToken, BlogController.deleteBlogHandler);
 blogRouter.route("/:id/comments")
     .post(authenticateToken, BlogController.commentBlogHandler)
     .get(BlogController.getCommentsByBlogIdHandler)
+    .put(authenticateToken, BlogController.updateBlogCommentHandler);
