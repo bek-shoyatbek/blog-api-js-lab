@@ -2,6 +2,7 @@ import { NextFunction, Request, Response } from "express";
 import { BlogService } from "./blog.service";
 import { AuthRequest } from "../../types";
 import { userRepository } from "../../common/database";
+import { CommentService } from "../comments/comment.service";
 
 export class BlogController {
   static async createBlogHandler(
@@ -121,4 +122,46 @@ export class BlogController {
       res.status(500).send({ message: "Internal server error" });
     }
   }
+
+  static async commentBlogHandler(
+    req: AuthRequest,
+    res: Response) {
+    try {
+      const comment = req.body.comment;
+
+      if (!comment) {
+        res.status(400).json({ message: "Comment is required" });
+        return;
+      }
+
+      const user = await userRepository.findOneBy({ id: req.user.userId });
+      if (!user) {
+        res.status(400).json({ message: "User with this id does not exist" });
+        return;
+      }
+      const blogId = req.params.id;
+      const blog = await BlogService.getById(blogId);
+      if (!blog) {
+        res.status(400).json({ message: "Blog not found" });
+        return;
+      }
+
+      if (blog.user.id !== user.id && user.role === "user") {
+        res
+          .status(403)
+          .json({ message: "You are not authorized to comment on this blog" });
+        return;
+      }
+      const result = await CommentService.addComment(user, blog, comment);
+      res.status(200).json({
+        result,
+      });
+      return;
+    }
+    catch (err) {
+      console.log(err);
+      res.status(500).send({ message: "Internal server error" });
+    }
+  }
+
 }
