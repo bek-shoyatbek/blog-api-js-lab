@@ -225,4 +225,42 @@ export class BlogController {
     }
   }
 
+  static async deleteBlogCommentHandler(
+    req: AuthRequest,
+    res: Response) {
+    try {
+      const user = req.user;
+      const { id: blogId } = req.params;
+      const commentId = req.query.commentId as string;
+
+      if (!commentId) {
+        res.status(400).json({ message: "Comment id is required" });
+        return;
+      }
+
+      const blog = await BlogService.getById(blogId);
+      if (!blog) {
+        res.status(400).json({ message: "Blog not found" });
+        return;
+      }
+
+      if (blog.user.id !== user.userId && user.userRole === "user") {
+        res
+          .status(403)
+          .json({ message: "You are not authorized to delete comment" });
+        return;
+      }
+
+      const result = await CommentService.deleteComment(commentId);
+      res.status(200).json({
+        result,
+      });
+      return;
+    }
+    catch (err) {
+      console.log(err);
+      res.status(500).send({ message: "Internal server error" });
+    }
+  }
+
 }
