@@ -23,4 +23,13 @@ export class CommentService {
         return comments;
     }
 
+    static async updateComment(commentId: string, updatedComment: string) {
+        const comment = await commentRepository.findOneBy({ id: commentId });
+        if (!comment) {
+            return null;
+        }
+
+        comment.content = updatedComment;
+        return await commentRepository.save(comment);
+    }
 }
