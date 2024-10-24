@@ -32,4 +32,12 @@ export class CommentService {
         comment.content = updatedComment;
         return await commentRepository.save(comment);
     }
+
+    static async deleteComment(commentId: string) {
+        const comment = await commentRepository.findOneBy({ id: commentId });
+        if (!comment) {
+            return null;
+        }
+        return await commentRepository.remove(comment);
+    }
 }
