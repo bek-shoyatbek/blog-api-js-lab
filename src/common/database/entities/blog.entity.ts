@@ -5,10 +5,10 @@ import {
   ManyToOne,
   OneToMany,
   PrimaryGeneratedColumn,
-  Timestamp,
   UpdateDateColumn,
 } from "typeorm";
 import { User } from "./user.entity";
+import { Comment } from "./comment.entity";
 
 @Entity()
 export class Blog {
@@ -20,6 +20,9 @@ export class Blog {
 
   @ManyToOne(() => User, (user) => user.blogs)
   user: User;
+
+  @OneToMany(() => Comment, (comment) => comment.blog)
+  comments: Comment[];
 
   @Column()
   content: string;

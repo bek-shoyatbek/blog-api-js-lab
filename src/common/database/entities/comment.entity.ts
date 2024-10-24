@@ -7,6 +7,8 @@ import {
   Timestamp,
   UpdateDateColumn,
 } from "typeorm";
+import { Blog } from "./blog.entity";
+import { User } from "./user.entity";
 
 @Entity()
 export class Comment {
@@ -15,6 +17,12 @@ export class Comment {
 
   @Column({ nullable: false })
   content: string;
+
+  @ManyToOne(() => Blog, (blog) => blog.comments)
+  blog: Blog;
+
+  @ManyToOne(() => User, (user) => user.comments)
+  user: User;
 
   @CreateDateColumn()
   created_at: Date;
