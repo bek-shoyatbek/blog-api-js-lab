@@ -164,4 +164,21 @@ export class BlogController {
     }
   }
 
+  static async getCommentsByBlogIdHandler(
+    req: Request,
+    res: Response,
+  ) {
+    try {
+      const blogId = req.params.id;
+      const comments = await CommentService.getCommentsByBlogId(blogId);
+      res.status(200).json({
+        message: "Comments fetched successfully",
+        data: comments,
+      });
+    } catch (err) {
+      console.log(err);
+      res.status(500).send({ message: "Internal server error" });
+    }
+  }
+
 }

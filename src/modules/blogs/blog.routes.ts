@@ -11,4 +11,5 @@ blogRouter.put("/:id", authenticateToken, BlogController.updateBlogHandler);
 blogRouter.delete("/:id", authenticateToken, BlogController.deleteBlogHandler);
 
 blogRouter.route("/:id/comments")
-    .post(authenticateToken, BlogController.commentBlogHandler);
+    .post(authenticateToken, BlogController.commentBlogHandler)
+    .get(BlogController.getCommentsByBlogIdHandler)
