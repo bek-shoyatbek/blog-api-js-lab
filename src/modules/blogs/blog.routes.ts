@@ -9,3 +9,9 @@ blogRouter.get("/", BlogController.getBlogsHandler);
 blogRouter.get("/:id", BlogController.getBlogByIdHandler);
 blogRouter.put("/:id", authenticateToken, BlogController.updateBlogHandler);
 blogRouter.delete("/:id", authenticateToken, BlogController.deleteBlogHandler);
+
+blogRouter.route("/:id/comments")
+    .post(authenticateToken, BlogController.commentBlogHandler)
+    .get(BlogController.getCommentsByBlogIdHandler)
+    .put(authenticateToken, BlogController.updateBlogCommentHandler)
+    .delete(authenticateToken, BlogController.deleteBlogCommentHandler);

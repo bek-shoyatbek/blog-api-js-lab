@@ -3,32 +3,26 @@ import {
   CreateDateColumn,
   Entity,
   ManyToOne,
-  OneToMany,
   PrimaryGeneratedColumn,
+  Timestamp,
   UpdateDateColumn,
 } from "typeorm";
+import { Blog } from "./blog.entity";
 import { User } from "./user.entity";
-import { Comment } from "./comment.entity";
 
 @Entity()
-export class Blog {
+export class Comment {
   @PrimaryGeneratedColumn("uuid")
   id: string;
 
-  @Column()
-  title: string;
-
-  @ManyToOne(() => User, (user) => user.blogs)
-  user: User;
-
-  @OneToMany(() => Comment, (comment) => comment.blog)
-  comments: Comment[];
-
-  @Column()
+  @Column({ nullable: false })
   content: string;
 
-  @Column("varchar", { array: true })
-  tags: string[];
+  @ManyToOne(() => Blog, (blog) => blog.comments)
+  blog: Blog;
+
+  @ManyToOne(() => User, (user) => user.comments)
+  user: User;
 
   @CreateDateColumn()
   created_at: Date;

@@ -6,6 +6,7 @@ import {
   PrimaryGeneratedColumn,
 } from "typeorm";
 import { Blog } from "./blog.entity";
+import { Comment } from "./comment.entity";
 
 export enum UserRole {
   ADMIN = "admin",
@@ -35,6 +36,9 @@ export class User {
 
   @OneToMany(() => Blog, (blog) => blog.user)
   blogs: Blog[];
+
+  @OneToMany(() => Comment, (comment) => comment.user)
+  comments: Comment[];
 
   @CreateDateColumn()
   created_at: Date;
