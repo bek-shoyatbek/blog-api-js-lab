@@ -146,12 +146,6 @@ export class BlogController {
         return;
       }
 
-      if (blog.user.id !== user.id && user.role === "user") {
-        res
-          .status(403)
-          .json({ message: "You are not authorized to comment on this blog" });
-        return;
-      }
       const result = await CommentService.addComment(user, blog, comment);
       res.status(200).json({
         result,
