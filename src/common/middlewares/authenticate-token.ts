@@ -13,12 +13,14 @@ export async function authenticateToken(
     const token = authHeader && authHeader.split(" ")[1];
 
     if (!token) {
-      return res.status(401).json({ message: "Token not provided!" });
+      res.status(401).json({ message: "Token not provided!" });
+      return;
     }
 
     jwt.verify(token, appConfig.jwtSecret as string, (err, user) => {
       if (err) {
-        return res.status(403).json({ message: "Couldn't verify token" });
+        res.status(403).json({ message: "Couldn't verify token" });
+        return;
       }
       req.user = user as UserPayload;
       next();
