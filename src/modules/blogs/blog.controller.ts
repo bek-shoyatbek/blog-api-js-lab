@@ -8,15 +8,14 @@ export class BlogController {
   static async createBlogHandler(
     req: AuthRequest,
     res: Response,
-    next: NextFunction,
   ) {
     try {
-      const user = await userRepository.findOneBy({ id: req.user.userId });
+      const user = await userRepository.findOneBy({ id: req.user?.id });
       if (!user) {
         res.status(400).json({ message: "User with this id does not exist" });
         return;
       }
-      const blog = await BlogService.create(req.user.userId, req.body);
+      const blog = await BlogService.create(user, req.body);
       res.status(201).json({
         message: "Blog created successfully",
         data: blog,
@@ -29,7 +28,6 @@ export class BlogController {
   static async getBlogsHandler(
     req: Request,
     res: Response,
-    next: NextFunction,
   ) {
     try {
       const take = req.query?.take || 20;
@@ -47,7 +45,6 @@ export class BlogController {
   static async getBlogByIdHandler(
     req: Request,
     res: Response,
-    next: NextFunction,
   ) {
     try {
       const blogId = req.params.id;
@@ -75,7 +72,7 @@ export class BlogController {
         return;
       }
 
-      if (blog.user.id !== user.userId && user.userRole === "user") {
+      if (blog.user.id !== user?.id && user?.role === "user") {
         res
           .status(403)
           .json({ message: "You are not authorized to update this blog" });
@@ -96,7 +93,6 @@ export class BlogController {
   static async deleteBlogHandler(
     req: AuthRequest,
     res: Response,
-    next: NextFunction,
   ) {
     try {
       const user = req.user;
@@ -107,7 +103,7 @@ export class BlogController {
         return;
       }
 
-      if (blog.user.id !== user.userId && user.userRole === "user") {
+      if (blog.user.id !== user?.id && user?.role === "user") {
         res
           .status(403)
           .json({ message: "You are not authorized to delete this blog" });
@@ -134,7 +130,7 @@ export class BlogController {
         return;
       }
 
-      const user = await userRepository.findOneBy({ id: req.user.userId });
+      const user = await userRepository.findOneBy({ id: req.user?.id });
       if (!user) {
         res.status(400).json({ message: "User with this id does not exist" });
         return;
@@ -200,7 +196,7 @@ export class BlogController {
         return;
       }
 
-      if (blog.user.id !== user.userId && user.userRole === "user") {
+      if (blog.user.id !== user?.id && user?.role === "user") {
         res
           .status(403)
           .json({ message: "You are not authorized to edit comment" });
@@ -238,7 +234,7 @@ export class BlogController {
         return;
       }
 
-      if (blog.user.id !== user.userId && user.userRole === "user") {
+      if (blog.user.id !== user?.id && user?.role === "user") {
         res
           .status(403)
           .json({ message: "You are not authorized to delete comment" });
