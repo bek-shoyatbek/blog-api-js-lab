@@ -1,4 +1,4 @@
-import { NextFunction, Request, Response } from "express";
+import { Request, Response } from "express";
 import { BlogService } from "./blog.service";
 import { AuthRequest } from "../../types";
 import { userRepository } from "../../common/database";
@@ -61,7 +61,6 @@ export class BlogController {
   static async updateBlogHandler(
     req: AuthRequest,
     res: Response,
-    next: NextFunction,
   ) {
     try {
       const user = req.user;
@@ -72,7 +71,7 @@ export class BlogController {
         return;
       }
 
-      if (blog.user.id !== user?.id && user?.role === "user") {
+      if (blog.user.id !== user?.id) {
         res
           .status(403)
           .json({ message: "You are not authorized to update this blog" });
@@ -103,7 +102,7 @@ export class BlogController {
         return;
       }
 
-      if (blog.user.id !== user?.id && user?.role === "user") {
+      if (blog.user.id !== user?.id && user?.role !== "admin") {
         res
           .status(403)
           .json({ message: "You are not authorized to delete this blog" });
@@ -196,7 +195,7 @@ export class BlogController {
         return;
       }
 
-      if (blog.user.id !== user?.id && user?.role === "user") {
+      if (blog.user.id !== user?.id) {
         res
           .status(403)
           .json({ message: "You are not authorized to edit comment" });
@@ -234,7 +233,7 @@ export class BlogController {
         return;
       }
 
-      if (blog.user.id !== user?.id && user?.role === "user") {
+      if (blog.user.id !== user?.id && user?.role !== "admin") {
         res
           .status(403)
           .json({ message: "You are not authorized to delete comment" });
